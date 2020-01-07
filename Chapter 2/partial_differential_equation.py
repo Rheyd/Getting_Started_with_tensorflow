@@ -3,7 +3,8 @@ import os; os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 import numpy as np
-from pde_lib import *
+import matplotlib.pyplot as plt
+from IPython.display import clear_output
 
 
   
@@ -74,7 +75,7 @@ for i in range(1000):
   step.run({eps: 0.03, damping: 0.04})
   # Visualize every 50 steps
   if i % 500 == 0:
-      clear_output()
+      #clear_output()
       plt.imshow(U.eval())
       plt.show()
 
