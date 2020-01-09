@@ -1,4 +1,7 @@
-import tensorflow as tf
+import os; os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+#compatibility mode for tensorflow, runs like a tensorflow 1 no advantages of tf 2.0
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 import numpy as np
 import math, random
 import matplotlib.pyplot as plt
@@ -67,7 +70,7 @@ for i in range(NUM_EPOCHS):
     cost = sess.run(tf.nn.l2_loss(model - y_validation),\
                     feed_dict={X:x_validation})
     errors.append(cost)
-    if i%100 == 0: print "epoch %d, cost = %g" % (i, cost)
+    if i%100 == 0: print("epoch %d, cost = %g" % (i, cost))
 
 plt.plot(errors,label='MLP Function Approximation')
 plt.xlabel('epochs')

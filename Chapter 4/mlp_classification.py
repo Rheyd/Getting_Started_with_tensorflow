@@ -2,7 +2,10 @@
 import input_data
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
-import tensorflow as tf
+import os; os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
+#compatibility mode for tensorflow, runs like a tensorflow 1 no advantages of tf 2.0
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 import matplotlib.pyplot as plt
 
 # Parameters
@@ -73,10 +76,10 @@ with tf.Session() as sess:
             avg_cost += sess.run(cost, feed_dict={x: batch_xs, y: batch_ys})/total_batch
         # Display logs per epoch step
         if epoch % display_step == 0:
-            print "Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost)
+            print("Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))
         avg_set.append(avg_cost)
         epoch_set.append(epoch+1)
-    print "Training phase finished"
+    print("Training phase finished")
 
     plt.plot(epoch_set,avg_set, 'o', label='MLP Training phase')
     plt.ylabel('cost')
@@ -88,4 +91,4 @@ with tf.Session() as sess:
     correct_prediction = tf.equal(tf.argmax(output_layer, 1), tf.argmax(y, 1))
     # Calculate accuracy
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-    print "Model Accuracy:", accuracy.eval({x: mnist.test.images, y: mnist.test.labels})
+    print("Model Accuracy:", accuracy.eval({x: mnist.test.images, y: mnist.test.labels}))
